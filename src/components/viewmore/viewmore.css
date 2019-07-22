@@ -1,0 +1,19 @@
+.viewmore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+.viewmore__link {
+  font-size: 14px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.viewmore__link:nth-child(2) {
+  padding-left: 40px;
+}
+
+.viewmore__link:hover {
+  color: #f06666;
+}
