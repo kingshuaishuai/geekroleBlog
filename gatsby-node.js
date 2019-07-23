@@ -68,9 +68,183 @@ exports.createPages = ({actions, graphql}) => {
     })
   })
 
+  // create category React page for blog,including pagination
+  const getReact  = makeRequest(graphql, `{
+    allContentfulBlog(
+      sort: {fields: [createdAt], order: DESC}
+      filter: {
+        category: { elemMatch: {title: {eq: "React"}} }
+      }
+    ) {
+      edges {
+        node {
+          id
+          slug
+        }
+      }
+    }
+  }`).then(result => {
+    const blogs = result.data.allContentfulBlog.edges;
+    const blogsPerPage = 9;
+    const numPages = Math.ceil(blogs.length / blogsPerPage);
+
+    Array.from({ length: numPages }).forEach((_, i) => {
+      createPage({
+        path: i === 0 ? '/category/react' : `/category/react/${i + 1}`,
+        component: path.resolve(__dirname, `src/templates/react.js`),
+        context: {
+          limit: blogsPerPage,
+          skip: i * blogsPerPage,
+          numPages,
+          currentPage: i + 1,
+        }
+      })
+    })
+  })
+
+  // create category Vue page for ,including pagination
+  const getVue  = makeRequest(graphql, `{
+    allContentfulBlog(
+      sort: {fields: [createdAt], order: DESC}
+      filter: {
+        category: { elemMatch: {title: {eq: "Vue"}} }
+      }
+    ) {
+      edges {
+        node {
+          id
+          slug
+        }
+      }
+    }
+  }`).then(result => {
+    const blogs = result.data.allContentfulBlog.edges;
+    const blogsPerPage = 9;
+    const numPages = Math.ceil(blogs.length / blogsPerPage);
+
+    Array.from({ length: numPages }).forEach((_, i) => {
+      createPage({
+        path: i === 0 ? '/category/vue' : `/category/vue/${i + 1}`,
+        component: path.resolve(__dirname, `src/templates/vue.js`),
+        context: {
+          limit: blogsPerPage,
+          skip: i * blogsPerPage,
+          numPages,
+          currentPage: i + 1,
+        }
+      })
+    })
+  })
+  
+  // create category JavaScript page for ,including pagination
+  const getJavascript  = makeRequest(graphql, `{
+    allContentfulBlog(
+      sort: {fields: [createdAt], order: DESC}
+      filter: {
+        category: { elemMatch: {title: {eq: "JavaScript"}} }
+      }
+    ) {
+      edges {
+        node {
+          id
+          slug
+        }
+      }
+    }
+  }`).then(result => {
+    const blogs = result.data.allContentfulBlog.edges;
+    const blogsPerPage = 9;
+    const numPages = Math.ceil(blogs.length / blogsPerPage);
+
+    Array.from({ length: numPages }).forEach((_, i) => {
+      createPage({
+        path: i === 0 ? '/category/javascript' : `/category/javascript/${i + 1}`,
+        component: path.resolve(__dirname, `src/templates/javascript.js`),
+        context: {
+          limit: blogsPerPage,
+          skip: i * blogsPerPage,
+          numPages,
+          currentPage: i + 1,
+        }
+      })
+    })
+  })
+
+  // create category Node.js page for ,including pagination
+  const getNode  = makeRequest(graphql, `{
+    allContentfulBlog(
+      sort: {fields: [createdAt], order: DESC}
+      filter: {
+        category: { elemMatch: {title: {eq: "Node.js"}} }
+      }
+    ) {
+      edges {
+        node {
+          id
+          slug
+        }
+      }
+    }
+  }`).then(result => {
+    const blogs = result.data.allContentfulBlog.edges;
+    const blogsPerPage = 9;
+    const numPages = Math.ceil(blogs.length / blogsPerPage);
+
+    Array.from({ length: numPages }).forEach((_, i) => {
+      createPage({
+        path: i === 0 ? '/category/node-js' : `/category/node-js/${i + 1}`,
+        component: path.resolve(__dirname, `src/templates/node.js`),
+        context: {
+          limit: blogsPerPage,
+          skip: i * blogsPerPage,
+          numPages,
+          currentPage: i + 1,
+        }
+      })
+    })
+  })
+
+  // create category Others page for ,including pagination
+  const getOthers  = makeRequest(graphql, `{
+    allContentfulBlog(
+      sort: {fields: [createdAt], order: DESC}
+      filter: {
+        category: { elemMatch: {title: {eq: "Others"}} }
+      }
+    ) {
+      edges {
+        node {
+          id
+          slug
+        }
+      }
+    }
+  }`).then(result => {
+    const blogs = result.data.allContentfulBlog.edges;
+    const blogsPerPage = 9;
+    const numPages = Math.ceil(blogs.length / blogsPerPage);
+
+    Array.from({ length: numPages }).forEach((_, i) => {
+      createPage({
+        path: i === 0 ? '/category/others' : `/category/others/${i + 1}`,
+        component: path.resolve(__dirname, `src/templates/others.js`),
+        context: {
+          limit: blogsPerPage,
+          skip: i * blogsPerPage,
+          numPages,
+          currentPage: i + 1,
+        }
+      })
+    })
+  })
 
   return Promise.all([
     getBlog,
-    getArchive
+    getArchive,
+    getReact,
+    getVue,
+    getJavascript,
+    getNode,
+    getOthers
   ])
 }

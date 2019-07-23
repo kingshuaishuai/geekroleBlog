@@ -9,17 +9,17 @@ import './archive.css';
 
 import headerImage from '../images/header-list.jpg';
 
-const Archive = (props) => {
+const VuePage = (props) => {
   const blogContent = props.data.allContentfulBlog;
   const { currentPage, numPages } = props.pageContext;
   const isFirst = currentPage === 1;
   const isLast = currentPage === numPages;
-  const prevPage = currentPage - 1 === 1 ? '/blog' : `/blog/${currentPage - 1}`;
-  const nextPage = `/blog/${currentPage + 1}`;
+  const prevPage = currentPage - 1 === 1 ? '/category/vue' : `/category/vue/${currentPage - 1}`;
+  const nextPage = `/category/vue/${currentPage + 1}`;
 
   return (
     <Layout>
-      <SEO title="blog" keywords={['geekrole', 'geek', 'react', 'vue', 'gatsby', 'node', 'node.js', 'graphql']} />
+      <SEO title="vue" keywords={['geekrole', 'geek', 'react', 'vue', 'gatsby', 'node', 'node.js', 'graphql']} />
       <Nav />
       
       <header>
@@ -38,7 +38,8 @@ const Archive = (props) => {
 
       <div className="archive__feed feed">
         {
-          blogContent.edges.map( edge => (
+          blogContent.edges.length > 0 
+          ? blogContent.edges.map( edge => (
             <div key={edge.node.id} className="card"
                  style={{
                   backgroundImage: `linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,0) 50%, rgba(10,10,10,.7) 100%), url(${edge.node.featuredImage.fluid.src})`,
@@ -52,6 +53,7 @@ const Archive = (props) => {
               <p className="card__title">{edge.node.title }</p>
             </div>
           ))
+          : <div>此分类下暂未发表文章</div>
         }
       </div>
 
@@ -75,14 +77,17 @@ const Archive = (props) => {
   )
 }
 
-export default Archive;
+export default VuePage;
 
 export const pageQuery= graphql`
-  query ArchiveQuery($skip: Int!, $limit: Int!) {
+  query VueQuery($skip: Int!, $limit: Int!) {
     allContentfulBlog(
       sort: { fields: [createdAt], order: DESC }
       skip: $skip
       limit: $limit
+      filter: {
+        category: { elemMatch: {title: {eq: "Vue"}} }
+      }
     ) {
       edges {
         node {

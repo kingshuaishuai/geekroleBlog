@@ -9,17 +9,17 @@ import './archive.css';
 
 import headerImage from '../images/header-list.jpg';
 
-const Archive = (props) => {
+const JavascriptPage = (props) => {
   const blogContent = props.data.allContentfulBlog;
   const { currentPage, numPages } = props.pageContext;
   const isFirst = currentPage === 1;
   const isLast = currentPage === numPages;
-  const prevPage = currentPage - 1 === 1 ? '/blog' : `/blog/${currentPage - 1}`;
-  const nextPage = `/blog/${currentPage + 1}`;
+  const prevPage = currentPage - 1 === 1 ? '/category/javascript' : `/category/javascript/${currentPage - 1}`;
+  const nextPage = `/category/javascript/${currentPage + 1}`;
 
   return (
     <Layout>
-      <SEO title="blog" keywords={['geekrole', 'geek', 'react', 'vue', 'gatsby', 'node', 'node.js', 'graphql']} />
+      <SEO title="javascript" keywords={['geekrole', 'geek', 'react', 'vue', 'gatsby', 'node', 'node.js', 'graphql', 'javascript', 'typescript']} />
       <Nav />
       
       <header>
@@ -75,14 +75,17 @@ const Archive = (props) => {
   )
 }
 
-export default Archive;
+export default JavascriptPage;
 
 export const pageQuery= graphql`
-  query ArchiveQuery($skip: Int!, $limit: Int!) {
+  query JavascriptQuery($skip: Int!, $limit: Int!) {
     allContentfulBlog(
       sort: { fields: [createdAt], order: DESC }
       skip: $skip
       limit: $limit
+      filter: {
+        category: { elemMatch: {title: {eq: "JavaScript"}} }
+      }
     ) {
       edges {
         node {
